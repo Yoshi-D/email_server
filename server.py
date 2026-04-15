@@ -1,5 +1,5 @@
 """
-server.py — Run this on the SERVER machine (your friend's laptop)
+server.py — Run this on the SERVER machine
 Starts:
   - SMTP server on port 2525
   - POP3 server on port 1100
@@ -346,7 +346,6 @@ def handle_pop3_client(conn, addr):
 
                 if state == "AUTHORIZATION":
                     if cmd == "USER":
-                        # arg arrives plaintext from client (login credentials are not encrypted)
                         decrypted_email = wire_decrypt(arg)
 
                         user = db_query(
@@ -542,9 +541,6 @@ def start_pop3():
         threading.Thread(target=handle_pop3_client, args=(conn, addr), daemon=True).start()
 
 
-# ─────────────────────────────────────────────
-# FASTAPI  (signup / login — credentials NOT encrypted)
-# ─────────────────────────────────────────────
 
 app = FastAPI()
 app.add_middleware(
@@ -614,9 +610,6 @@ def login(data: LoginRequest):
 
     return {"message": "Login successful"}
 
-# ─────────────────────────────────────────────
-# ENTRY POINT
-# ─────────────────────────────────────────────
 
 if __name__ == "__main__":
     init_db()

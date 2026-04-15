@@ -1,12 +1,12 @@
 """
-client_proxy.py — Run this on YOUR machine (the client)
+client_proxy.py — Run this on client
 Exposes a local REST API on port 9000 that the browser talks to.
 Internally speaks raw SMTP (port 2525) and POP3 (port 1100) to the server.
 
 Offline queue: if the SMTP server is unreachable, emails are saved to
 queue.json and retried every 30 seconds automatically.
 
-Requirements: pip install fastapi uvicorn httpx
+Requirements: pip install fastapi uvicorn 
 Run: python client_proxy.py
 
 Encryption notes
@@ -64,10 +64,7 @@ def wire_decrypt(text: str) -> str:
     """Decrypt a string received from the server over the raw TCP socket."""
     return _caesar(text, -WIRE_SHIFT)
 
-# ─────────────────────────────────────────────
-# CONFIG  ← replace SERVER_IP with your friend's LAN IP
-# ─────────────────────────────────────────────
-SERVER_IP   = "172.18.15.11"   # ← REPLACE THIS
+SERVER_IP   = "172.18.15.11"   
 SMTP_PORT   = 2525
 POP3_PORT   = 1100
 API_PORT    = 8000
@@ -434,10 +431,6 @@ def health():
     except Exception:
         return {"server": "offline"}
 
-
-# ─────────────────────────────────────────────
-# ENTRY POINT
-# ─────────────────────────────────────────────
 
 if __name__ == "__main__":
     print(f"[PROXY] Client proxy starting on port {PROXY_PORT}")
